@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -32,6 +33,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -44,6 +46,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -86,8 +89,10 @@ import com.zionhuang.music.ui.component.LocalMenuState
 import com.zionhuang.music.ui.component.NavigationTile
 import com.zionhuang.music.ui.component.NavigationTitle
 import com.zionhuang.music.ui.component.SongGridItem
-import com.zionhuang.music.ui.component.SongListItem
 import com.zionhuang.music.ui.component.HomeGridItem
+import com.zionhuang.music.ui.component.MoodAndGenresButton
+import com.zionhuang.music.ui.component.MoodAndGenresButtonHeight
+import com.zionhuang.music.ui.component.SongListItem
 import com.zionhuang.music.ui.component.YouTubeGridItem
 import com.zionhuang.music.ui.component.shimmer.GridItemPlaceHolder
 import com.zionhuang.music.ui.component.shimmer.ShimmerHost
@@ -387,7 +392,6 @@ fun HomeScreen(
                                 rowItems.forEach { item ->
                                     val title = when (item) {
                                         is Song -> item.song.title
-                                        is SongItem -> item.title
                                         is Album -> item.album.title
                                         is Artist -> item.artist.name
                                         is YTItem -> item.title
@@ -395,7 +399,6 @@ fun HomeScreen(
                                     }
                                     val thumbnail = when (item) {
                                         is Song -> item.song.thumbnailUrl
-                                        is SongItem -> item.thumbnail
                                         is Album -> item.album.thumbnailUrl
                                         is Artist -> item.artist.thumbnailUrl
                                         is YTItem -> item.thumbnail
@@ -408,7 +411,6 @@ fun HomeScreen(
                                         onClick = {
                                             when (item) {
                                                 is Song -> playerConnection.playQueue(YouTubeQueue.radio(item.toMediaMetadata()))
-                                                is SongItem -> playerConnection.playQueue(YouTubeQueue(item.endpoint ?: WatchEndpoint(videoId = item.id), item.toMediaMetadata()))
                                                 is Album -> navController.navigate("album/${item.id}")
                                                 is Artist -> navController.navigate("artist/${item.id}")
                                                 is YTItem -> {
