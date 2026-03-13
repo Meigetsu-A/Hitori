@@ -59,6 +59,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.media3.common.C
 import androidx.media3.common.Player.REPEAT_MODE_ALL
