@@ -419,6 +419,7 @@ fun HomeScreen(
                                                         is PlaylistItem -> navController.navigate("online_playlist/${item.id}")
                                                     }
                                                 }
+                                                else -> {}
                                             }
                                         },
                                         modifier = Modifier
