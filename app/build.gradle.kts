@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
-if (isFullBuild && System.getenv("PULL_REQUEST") == null) {
+if (isFullBuild && System.getenv("PULL_REQUEST").isNullOrEmpty() && file("google-services.json").exists()) {
     apply(plugin = "com.google.gms.google-services")
     apply(plugin = "com.google.firebase.crashlytics")
     apply(plugin = "com.google.firebase.firebase-perf")
@@ -61,8 +61,11 @@ android {
     
     signingConfigs {
         getByName("debug") {
-            if (System.getenv("MUSIC_DEBUG_SIGNING_STORE_PASSWORD") != null) {
-                storeFile = file(System.getenv("MUSIC_DEBUG_KEYSTORE_FILE"))
+            val keystoreFile = System.getenv("MUSIC_DEBUG_KEYSTORE_FILE")
+            if (!System.getenv("MUSIC_DEBUG_SIGNING_STORE_PASSWORD").isNullOrEmpty() &&
+                !keystoreFile.isNullOrEmpty() &&
+                file(keystoreFile).exists()) {
+                storeFile = file(keystoreFile)
                 storePassword = System.getenv("MUSIC_DEBUG_SIGNING_STORE_PASSWORD")
                 keyAlias = "debug"
                 keyPassword = System.getenv("MUSIC_DEBUG_SIGNING_KEY_PASSWORD")

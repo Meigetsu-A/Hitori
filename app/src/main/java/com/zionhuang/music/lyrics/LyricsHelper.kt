@@ -19,21 +19,65 @@ class LyricsHelper @Inject constructor(
         if (cached != null) {
             return cached.lyrics
         }
+
+        val cleanTitle = cleanTitle(mediaMetadata.title)
+        val cleanArtist = cleanArtist(mediaMetadata.artists.joinToString { it.name })
+
+        // First pass: try all providers to find synchronized lyrics
         lyricsProviders.forEach { provider ->
             if (provider.isEnabled(context)) {
                 provider.getLyrics(
                     mediaMetadata.id,
-                    mediaMetadata.title,
-                    mediaMetadata.artists.joinToString { it.name },
+                    cleanTitle,
+                    cleanArtist,
                     mediaMetadata.duration
                 ).onSuccess { lyrics ->
-                    return lyrics
+                    if (lyrics.startsWith("[")) return lyrics
+                }.onFailure {
+                    reportException(it)
+                }
+            }
+        }
+
+        // Second pass: if no synchronized lyrics found, return the first available unsynchronized lyrics
+        lyricsProviders.forEach { provider ->
+            if (provider.isEnabled(context)) {
+                provider.getLyrics(
+                    mediaMetadata.id,
+                    cleanTitle,
+                    cleanArtist,
+                    mediaMetadata.duration
+                ).onSuccess { lyrics ->
+                    if (lyrics.isNotEmpty() && lyrics != LYRICS_NOT_FOUND) return lyrics
                 }.onFailure {
                     reportException(it)
                 }
             }
         }
         return LYRICS_NOT_FOUND
+    }
+
+    private fun cleanTitle(title: String): String {
+        return title
+            .replace(Regex("\\(.*?\\)"), "") // Remove content in parentheses
+            .replace(Regex("\\[.*?\\]"), "") // Remove content in brackets
+            .replace(Regex("(?i)official video"), "")
+            .replace(Regex("(?i)official audio"), "")
+            .replace(Regex("(?i)official lyric video"), "")
+            .replace(Regex("(?i)lyric video"), "")
+            .replace(Regex("(?i)lyrics"), "")
+            .replace(Regex("(?i)video"), "")
+            .replace(Regex("(?i)ft\\..*"), "")
+            .replace(Regex("(?i)feat\\..*"), "")
+            .trim()
+    }
+
+    private fun cleanArtist(artist: String): String {
+        return artist
+            .replace(Regex("(?i)ft\\..*"), "")
+            .replace(Regex("(?i)feat\\..*"), "")
+            .replace(Regex("(?i),.*"), "") // Take only the first artist for better matching in some providers
+            .trim()
     }
 
     suspend fun getAllLyrics(
