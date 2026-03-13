@@ -11,6 +11,16 @@ on:
       - '.github/**/*.md'
       - '.github/FUNDING.yml'
       - '.github/ISSUE_TEMPLATE/**'
+  pull_request:
+    branches:
+      - '**'
+    paths-ignore:
+      - 'README.md'
+      - 'fastlane/**'
+      - 'assets/**'
+      - '.github/**/*.md'
+      - '.github/FUNDING.yml'
+      - '.github/ISSUE_TEMPLATE/**'
 
 jobs:
   build:
