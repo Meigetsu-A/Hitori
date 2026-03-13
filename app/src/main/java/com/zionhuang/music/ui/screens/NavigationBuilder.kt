@@ -42,6 +42,14 @@ fun NavGraphBuilder.navigationBuilder(
     composable(Screens.Home.route) {
         HomeScreen(navController)
     }
+    composable(Screens.Search.route) {
+        // Search is handled in MainActivity with a persistent SearchBar,
+        // but we need a route for the bottom nav.
+        // For now, we'll just show an empty box or redirect.
+    }
+    composable(Screens.Library.route) {
+        LibraryScreen(navController)
+    }
     composable(Screens.Songs.route) {
         LibrarySongsScreen(navController)
     }

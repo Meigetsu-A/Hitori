@@ -85,6 +85,7 @@ import com.zionhuang.music.ui.component.NavigationTile
 import com.zionhuang.music.ui.component.NavigationTitle
 import com.zionhuang.music.ui.component.SongGridItem
 import com.zionhuang.music.ui.component.SongListItem
+import com.zionhuang.music.ui.component.HomeGridItem
 import com.zionhuang.music.ui.component.YouTubeGridItem
 import com.zionhuang.music.ui.component.shimmer.GridItemPlaceHolder
 import com.zionhuang.music.ui.component.shimmer.ShimmerHost
@@ -102,6 +103,7 @@ import com.zionhuang.music.viewmodels.HomeViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import kotlin.math.min
 import kotlin.random.Random
 
@@ -329,6 +331,109 @@ fun HomeScreen(
             state = lazylistState,
             contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues()
         ) {
+            item {
+                val greeting = remember {
+                    when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+                        in 0..11 -> R.string.home
+                        in 12..17 -> R.string.home
+                        else -> R.string.home
+                    }
+                }
+                // We need more strings in strings.xml for real greetings,
+                // but for now let's just use the logic and hardcode or use existing
+                val greetingText = remember {
+                    val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                    when {
+                        hour < 12 -> "Good morning"
+                        hour < 18 -> "Good afternoon"
+                        else -> "Good evening"
+                    }
+                }
+
+                Text(
+                    text = greetingText,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Horizontal))
+                        .padding(horizontal = 16.dp, vertical = 16.dp)
+                )
+            }
+
+            item {
+                val items = (quickPicks.orEmpty() + keepListening.orEmpty()).distinctBy {
+                    when (it) {
+                        is Song -> it.id
+                        is SongItem -> it.id
+                        is Album -> it.id
+                        is Artist -> it.id
+                        else -> ""
+                    }
+                }.take(6)
+
+                if (items.isNotEmpty()) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        items.chunked(2).forEach { rowItems ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                rowItems.forEach { item ->
+                                    val title = when (item) {
+                                        is Song -> item.song.title
+                                        is SongItem -> item.title
+                                        is Album -> item.album.title
+                                        is Artist -> item.artist.name
+                                        is YTItem -> item.title
+                                        else -> ""
+                                    }
+                                    val thumbnail = when (item) {
+                                        is Song -> item.song.thumbnailUrl
+                                        is SongItem -> item.thumbnail
+                                        is Album -> item.album.thumbnailUrl
+                                        is Artist -> item.artist.thumbnailUrl
+                                        is YTItem -> item.thumbnail
+                                        else -> null
+                                    }
+
+                                    HomeGridItem(
+                                        title = title,
+                                        thumbnailUrl = thumbnail,
+                                        onClick = {
+                                            when (item) {
+                                                is Song -> playerConnection.playQueue(YouTubeQueue.radio(item.toMediaMetadata()))
+                                                is SongItem -> playerConnection.playQueue(YouTubeQueue(item.endpoint ?: WatchEndpoint(videoId = item.id), item.toMediaMetadata()))
+                                                is Album -> navController.navigate("album/${item.id}")
+                                                is Artist -> navController.navigate("artist/${item.id}")
+                                                is YTItem -> {
+                                                    when (item) {
+                                                        is SongItem -> playerConnection.playQueue(YouTubeQueue(item.endpoint ?: WatchEndpoint(videoId = item.id), item.toMediaMetadata()))
+                                                        is AlbumItem -> navController.navigate("album/${item.id}")
+                                                        is ArtistItem -> navController.navigate("artist/${item.id}")
+                                                        is PlaylistItem -> navController.navigate("online_playlist/${item.id}")
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(vertical = 4.dp)
+                                    )
+                                }
+                                if (rowItems.size == 1) {
+                                    Spacer(modifier = Modifier.weight(1f))
+                                }
+                            }
+                        }
+                    }
+                    Spacer(Modifier.height(16.dp))
+                }
+            }
+
             item {
                 Row(
                     modifier = Modifier

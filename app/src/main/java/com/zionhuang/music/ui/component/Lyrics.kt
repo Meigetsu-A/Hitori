@@ -202,23 +202,23 @@ fun Lyrics(
                 itemsIndexed(
                     items = lines
                 ) { index, item ->
+                    val isActive = index == displayedCurrentLineIndex
                     Text(
                         text = item.text,
-                        fontSize = 20.sp,
-                        color = if (index == displayedCurrentLineIndex) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
+                        fontSize = if (isActive) 28.sp else 24.sp,
+                        color = if (isActive) Color.White else Color.White.copy(alpha = 0.5f),
                         textAlign = when (playerTextAlignment) {
                             PlayerTextAlignment.SIDED -> TextAlign.Start
                             PlayerTextAlignment.CENTER -> TextAlign.Center
                         },
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Black,
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable(enabled = isSynced) {
                                 playerConnection.player.seekTo(item.time)
                                 lastPreviewTime = 0L
                             }
-                            .padding(horizontal = 24.dp, vertical = 8.dp)
-                            .alpha(if (!isSynced || index == displayedCurrentLineIndex) 1f else 0.5f)
+                            .padding(horizontal = 24.dp, vertical = 12.dp)
                     )
                 }
             }

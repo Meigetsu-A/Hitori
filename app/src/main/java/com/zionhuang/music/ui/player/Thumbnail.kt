@@ -16,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalView
@@ -61,14 +62,15 @@ fun Thumbnail(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = PlayerHorizontalPadding)
+                    .padding(horizontal = PlayerHorizontalPadding * 2)
             ) {
                 AsyncImage(
                     model = mediaMetadata?.thumbnailUrl,
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(ThumbnailCornerRadius * 2))
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(12.dp))
                         .pointerInput(Unit) {
                             detectTapGestures(
                                 onDoubleTap = { offset ->

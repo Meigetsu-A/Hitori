@@ -344,7 +344,7 @@ class MainActivity : ComponentActivity() {
 
                     val shouldShowSearchBar = remember(active, navBackStackEntry, inSelectMode?.value) {
                         (active ||
-                                navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } ||
+                                navBackStackEntry?.destination?.route == Screens.Search.route ||
                                 navBackStackEntry?.destination?.route?.startsWith("search/") == true) &&
                                 inSelectMode?.value != true
                     }
@@ -571,6 +571,9 @@ class MainActivity : ComponentActivity() {
                                                 active -> onActiveChange(false)
                                                 !navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } -> {
                                                     navController.navigateUp()
+                                                    if (navBackStackEntry?.destination?.route == Screens.Search.route) {
+                                                        onActiveChange(true)
+                                                    }
                                                 }
 
                                                 else -> onActiveChange(true)
@@ -775,6 +778,13 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    LaunchedEffect(navBackStackEntry) {
+                        if (navBackStackEntry?.destination?.route == Screens.Search.route) {
+                            onActiveChange(true)
+                            searchBarFocusRequester.requestFocus()
                         }
                     }
 
