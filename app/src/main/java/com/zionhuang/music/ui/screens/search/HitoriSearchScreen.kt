@@ -1,6 +1,7 @@
 package com.zionhuang.music.ui.screens.search
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,25 +21,24 @@ import com.zionhuang.innertube.models.PlaylistItem
 import com.zionhuang.innertube.models.SongItem
 import com.zionhuang.innertube.models.WatchEndpoint
 import com.zionhuang.music.LocalPlayerConnection
+import com.zionhuang.music.R
 import com.zionhuang.music.playback.queues.YouTubeQueue
 import com.zionhuang.music.ui.hitori.FrauncesFont
 import com.zionhuang.music.ui.hitori.hitoriColors
 import com.zionhuang.music.ui.hitori.components.HitoriSearchBar
 import com.zionhuang.music.ui.hitori.components.SearchResultRow
-import com.zionhuang.music.viewmodels.OnlineSearchViewModel
+import com.zionhuang.music.viewmodels.OnlineSearchSuggestionViewModel
 import com.zionhuang.music.models.toMediaMetadata
 import com.zionhuang.music.utils.urlEncode
 
 @Composable
-fun OnlineSearchScreen(
+fun HitoriSearchScreen(
     navController: NavController,
-    viewModel: OnlineSearchViewModel = hiltViewModel(),
+    viewModel: OnlineSearchSuggestionViewModel = hiltViewModel(),
 ) {
     val playerConnection = LocalPlayerConnection.current ?: return
-    var searchFieldText by remember { mutableStateOf(viewModel.query) }
-
-    val searchSummary = viewModel.summaryPage
-    val results = searchSummary?.summaries?.flatMap { it.items } ?: emptyList()
+    val query by viewModel.query.collectAsState()
+    val viewState by viewModel.viewState.collectAsState()
 
     LazyColumn(
         Modifier
@@ -62,8 +62,8 @@ fun OnlineSearchScreen(
                 )
                 Spacer(Modifier.height(14.dp))
                 HitoriSearchBar(
-                    query = searchFieldText,
-                    onQueryChange = { searchFieldText = it },
+                    query = query,
+                    onQueryChange = { viewModel.query.value = it },
                     onSearch = {
                         if (it.isNotEmpty()) {
                             navController.navigate("search/${it.urlEncode()}")
@@ -73,7 +73,7 @@ fun OnlineSearchScreen(
             }
         }
 
-        if (results.isEmpty()) {
+        if (viewState.items.isEmpty()) {
             item {
                 Text(
                     text = "BROWSE",
@@ -84,9 +84,19 @@ fun OnlineSearchScreen(
                     modifier = Modifier.padding(horizontal = 22.dp, vertical = 10.dp)
                 )
             }
-            // BrowseCategoriesGrid would go here
+            // Browse categories based on suggestions or history could go here
+            items(viewState.history) { history ->
+                SearchResultRowForQuery(history.query, isHistory = true) {
+                    navController.navigate("search/${history.query.urlEncode()}")
+                }
+            }
+            items(viewState.suggestions) { suggestion ->
+                SearchResultRowForQuery(suggestion, isHistory = false) {
+                    navController.navigate("search/${suggestion.urlEncode()}")
+                }
+            }
         } else {
-            items(results) { result ->
+            items(viewState.items) { result ->
                 SearchResultRow(
                     item = result,
                     onClick = {
@@ -100,5 +110,25 @@ fun OnlineSearchScreen(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun SearchResultRowForQuery(query: String, isHistory: Boolean, onClick: () -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(horizontal = 22.dp, vertical = 12.dp),
+        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+    ) {
+        androidx.compose.material3.Icon(
+            painter = androidx.compose.ui.res.painterResource(if (isHistory) R.drawable.history else R.drawable.search),
+            contentDescription = null,
+            tint = hitoriColors.Text3,
+            modifier = Modifier.size(18.dp)
+        )
+        Spacer(Modifier.width(16.dp))
+        Text(text = query, color = hitoriColors.Text, fontSize = 15.sp, fontWeight = FontWeight.Medium)
     }
 }
