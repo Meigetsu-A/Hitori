@@ -20,8 +20,8 @@ import com.zionhuang.innertube.models.ArtistItem
 import com.zionhuang.innertube.models.PlaylistItem
 import com.zionhuang.innertube.models.SongItem
 import com.zionhuang.innertube.models.WatchEndpoint
-import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
+import com.zionhuang.music.R
 import com.zionhuang.music.playback.queues.YouTubeQueue
 import com.zionhuang.music.ui.hitori.FrauncesFont
 import com.zionhuang.music.ui.hitori.hitoriColors
@@ -44,14 +44,14 @@ fun HitoriSearchScreen(
         Modifier
             .fillMaxSize()
             .background(hitoriColors.Bg),
-        contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues()
+        contentPadding = PaddingValues(bottom = 20.dp)
     ) {
         item {
             Column(
                 Modifier
                     .fillMaxWidth()
                     .background(Brush.verticalGradient(listOf(hitoriColors.Bg, hitoriColors.Bg, Color.Transparent)))
-                    .padding(top = 16.dp, start = 22.dp, end = 22.dp, bottom = 10.dp)
+                    .padding(top = 52.dp, start = 22.dp, end = 22.dp, bottom = 10.dp)
             ) {
                 Text(
                     text = "Search",
@@ -123,7 +123,7 @@ fun SearchResultRowForQuery(query: String, isHistory: Boolean, onClick: () -> Un
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
     ) {
         androidx.compose.material3.Icon(
-            painter = androidx.compose.ui.res.painterResource(if (isHistory) com.zionhuang.music.R.drawable.history else com.zionhuang.music.R.drawable.search),
+            painter = androidx.compose.ui.res.painterResource(if (isHistory) R.drawable.history else R.drawable.search),
             contentDescription = null,
             tint = hitoriColors.Text3,
             modifier = Modifier.size(18.dp)

@@ -25,6 +25,7 @@ import com.zionhuang.music.constants.UseLoginForBrowse
 import com.zionhuang.music.constants.VisitorDataKey
 import com.zionhuang.music.extensions.toEnum
 import com.zionhuang.music.extensions.toInetSocketAddress
+import com.zionhuang.music.utils.CrashHandler
 import com.zionhuang.music.utils.dataStore
 import com.zionhuang.music.utils.get
 import com.zionhuang.music.utils.reportException
@@ -43,6 +44,7 @@ class App : Application(), ImageLoaderFactory {
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate() {
         super.onCreate()
+        CrashHandler.init(this)
         Timber.plant(Timber.DebugTree())
 
         val locale = Locale.getDefault()

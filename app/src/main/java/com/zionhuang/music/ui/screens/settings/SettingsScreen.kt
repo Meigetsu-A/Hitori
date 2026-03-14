@@ -11,6 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,6 +25,7 @@ import com.zionhuang.music.ui.hitori.ThemeMode
 import com.zionhuang.music.ui.hitori.ThemeViewModel
 import com.zionhuang.music.ui.hitori.hitoriColors
 import com.zionhuang.music.ui.hitori.components.AppearanceSection
+import com.zionhuang.music.utils.CrashHandler
 import com.zionhuang.music.viewmodels.AccountViewModel
 import kotlinx.coroutines.launch
 
@@ -35,6 +39,8 @@ fun SettingsScreen(
     val accountInfo by accountViewModel.accountInfo.collectAsState()
     val database = LocalDatabase.current
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
 
     LazyColumn(
         Modifier
@@ -105,6 +111,17 @@ fun SettingsScreen(
                         clearSearchHistory()
                     }
                 }
+            }
+        }
+
+        item {
+            SettingsGroupLabel("Debug")
+            SettingsRow(label = "Copy Crash Logs") {
+                val logs = CrashHandler.getCrashLogs(context)
+                clipboardManager.setText(AnnotatedString(logs))
+            }
+            SettingsRow(label = "Clear Crash Logs") {
+                CrashHandler.clearLogs(context)
             }
         }
     }
