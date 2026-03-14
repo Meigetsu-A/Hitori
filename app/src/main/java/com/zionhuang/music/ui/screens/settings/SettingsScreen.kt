@@ -72,7 +72,7 @@ fun SettingsScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = accountInfo?.name?.firstOrNull()?.toString() ?: "H",
+                        text = accountInfo?.name?.takeIf { it.isNotEmpty() }?.firstOrNull()?.toString() ?: "H",
                         fontSize = 26.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF0A0A08)

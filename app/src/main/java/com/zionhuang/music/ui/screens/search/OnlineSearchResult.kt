@@ -36,7 +36,7 @@ fun OnlineSearchResult(
     val results = if (searchFilter == null) {
         searchSummary?.summaries?.flatMap { it.items } ?: emptyList()
     } else {
-        viewModel.viewStateMap[searchFilter!!.value]?.items ?: emptyList()
+        viewModel.viewStateMap[searchFilter?.value]?.items ?: emptyList()
     }
 
     LazyColumn(

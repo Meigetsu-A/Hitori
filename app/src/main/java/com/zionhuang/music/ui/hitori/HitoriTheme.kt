@@ -3,6 +3,8 @@ package com.zionhuang.music.ui.hitori
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -152,10 +154,49 @@ fun HitoriTheme(
         )
     }
 
+    val colorScheme = if (isDark) {
+        darkColorScheme(
+            primary = colors.Accent,
+            onPrimary = colors.Bg,
+            primaryContainer = colors.AccentDim,
+            onPrimaryContainer = colors.Accent,
+            secondary = colors.Accent2,
+            onSecondary = colors.Bg,
+            background = colors.Bg,
+            onBackground = colors.Text,
+            surface = colors.Bg,
+            onSurface = colors.Text,
+            surfaceVariant = colors.Bg2,
+            onSurfaceVariant = colors.Text2,
+            outline = colors.Border,
+            error = Color(0xFFF44336),
+            onError = Color.White
+        )
+    } else {
+        lightColorScheme(
+            primary = colors.Accent,
+            onPrimary = Color.White,
+            primaryContainer = colors.AccentDim,
+            onPrimaryContainer = colors.Accent,
+            secondary = colors.Accent2,
+            onSecondary = Color.White,
+            background = colors.Bg,
+            onBackground = colors.Text,
+            surface = colors.Bg,
+            onSurface = colors.Text,
+            surfaceVariant = colors.Bg2,
+            onSurfaceVariant = colors.Text2,
+            outline = colors.Border,
+            error = Color(0xFFB00020),
+            onError = Color.White
+        )
+    }
+
     CompositionLocalProvider(
         LocalHitoriColors provides colors
     ) {
         MaterialTheme(
+            colorScheme = colorScheme,
             typography = HitoriTypography,
             content = content
         )

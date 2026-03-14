@@ -524,6 +524,7 @@ fun AlbumScreen(
     }
 
     TopAppBar(
+        modifier = Modifier.background(MaterialTheme.colorScheme.surface),
         title = {
             if (inSelectMode) {
                 Text(pluralStringResource(R.plurals.n_selected, selection.size, selection.size))

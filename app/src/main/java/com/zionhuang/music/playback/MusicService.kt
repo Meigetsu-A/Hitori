@@ -782,6 +782,11 @@ class MusicService : MediaLibraryService(),
     override fun onBind(intent: Intent?) = super.onBind(intent) ?: binder
 
     override fun onTaskRemoved(rootIntent: Intent?) {
+        try {
+            saveQueueToDisk()
+        } catch (e: Exception) {
+            reportException(e)
+        }
         super.onTaskRemoved(rootIntent)
         stopSelf()
     }

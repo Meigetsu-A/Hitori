@@ -124,7 +124,7 @@ fun NavGraphBuilder.navigationBuilder(
             }
         )
     ) { backStackEntry ->
-        val artistId = backStackEntry.arguments?.getString("artistId")!!
+        val artistId = backStackEntry.arguments?.getString("artistId") ?: return@composable
         if (artistId.startsWith("LA")) {
             ArtistSongsScreen(navController, scrollBehavior)
         } else {
