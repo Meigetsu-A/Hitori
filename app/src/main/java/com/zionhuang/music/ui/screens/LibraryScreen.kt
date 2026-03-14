@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
 import com.zionhuang.music.models.toMediaMetadata
 import com.zionhuang.music.ui.hitori.FrauncesFont
@@ -47,14 +48,14 @@ fun LibraryScreen(
         Modifier
             .fillMaxSize()
             .background(hitoriColors.Bg),
-        contentPadding = PaddingValues(bottom = 20.dp)
+        contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues()
     ) {
         item {
             Column(
                 Modifier
                     .fillMaxWidth()
                     .background(Brush.verticalGradient(listOf(hitoriColors.Bg, hitoriColors.Bg, Color.Transparent)))
-                    .padding(top = 52.dp, start = 22.dp, end = 22.dp, bottom = 10.dp)
+                    .padding(top = 16.dp, start = 22.dp, end = 22.dp, bottom = 10.dp)
             ) {
                 Text(
                     text = "Library",

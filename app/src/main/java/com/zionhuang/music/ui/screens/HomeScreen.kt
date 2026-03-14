@@ -18,6 +18,7 @@ import com.zionhuang.innertube.models.ArtistItem
 import com.zionhuang.innertube.models.PlaylistItem
 import com.zionhuang.innertube.models.SongItem
 import com.zionhuang.innertube.models.WatchEndpoint
+import com.zionhuang.music.LocalPlayerAwareWindowInsets
 import com.zionhuang.music.LocalPlayerConnection
 import com.zionhuang.music.playback.queues.YouTubeQueue
 import com.zionhuang.music.ui.hitori.FrauncesFont
@@ -42,7 +43,7 @@ fun HomeScreen(
         Modifier
             .fillMaxSize()
             .background(hitoriColors.Bg),
-        contentPadding = PaddingValues(top = 52.dp, bottom = 20.dp)
+        contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues()
     ) {
         // Hero carousel: first shelf or featured items
         item {

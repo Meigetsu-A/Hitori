@@ -13,33 +13,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-object HitoriColors {
-    val Bg        = Color(0xFF0A0A08)
-    val Bg2       = Color(0xFF111110)
-    val Card      = Color(0xFF1C1C18)
-    val Card2     = Color(0xFF262620)
-    val Border    = Color(0x14FFE600)
-    val Accent    = Color(0xFFF5E000)
-    val Accent2   = Color(0xFFFFD000)
-    val AccentDim = Color(0x1FF5E000)
-    val Text      = Color(0xFFFFFFFF)
-    val Text2     = Color(0x8CFFFFFF)
-    val Text3     = Color(0x47FFFFFF)
-    val TabBg     = Color(0xF20A0A08)
-    val SheetBg   = Color(0xFF0A0A08)
-    val InputBg   = Color(0xFF1C1C18)
-    val SetGroup  = Color(0xFF1C1C18)
-}
-
 object DarkColors {
     val Bg        = Color(0xFF0A0A08)
     val Bg2       = Color(0xFF111110)
     val Card      = Color(0xFF1C1C18)
     val Card2     = Color(0xFF262620)
-    val Border    = Color(0x14FFE600)
-    val Accent    = Color(0xFFF5E000)
-    val Accent2   = Color(0xFFFFD000)
-    val AccentDim = Color(0x1FF5E000)
+    val Border    = Color(0x14FF69B4) // Pinkish border
+    val Accent    = Color(0xFFFFB6C1) // Light Pink
+    val Accent2   = Color(0xFFFF69B4) // Hot Pink
+    val AccentDim = Color(0x1FFF69B4)
     val Text      = Color(0xFFFFFFFF)
     val Text2     = Color(0x8CFFFFFF)
     val Text3     = Color(0x47FFFFFF)
@@ -50,19 +32,19 @@ object DarkColors {
 }
 
 object LightColors {
-    val Bg        = Color(0xFFF5F3E8)
-    val Bg2       = Color(0xFFEDE9D4)
+    val Bg        = Color(0xFFFDF0F3) // Very light pink bg
+    val Bg2       = Color(0xFFF8E2E7)
     val Card      = Color(0xFFFFFFFF)
-    val Card2     = Color(0xFFF0EDD8)
-    val Border    = Color(0x24B49600)
-    val Accent    = Color(0xFFC8A800)
-    val Accent2   = Color(0xFFB89400)
-    val AccentDim = Color(0x1AC8A800)
+    val Card2     = Color(0xFFFAEAEE)
+    val Border    = Color(0x24FF69B4)
+    val Accent    = Color(0xFFFF69B4)
+    val Accent2   = Color(0xFFFF1493)
+    val AccentDim = Color(0x1AFF69B4)
     val Text      = Color(0xFF0A0A08)
     val Text2     = Color(0x8C0A0A08)
     val Text3     = Color(0x4D0A0A08)
-    val TabBg     = Color(0xF5F5F3E8)
-    val SheetBg   = Color(0xFFF5F3E8)
+    val TabBg     = Color(0xF5FDF0F3)
+    val SheetBg   = Color(0xFFFDF0F3)
     val InputBg   = Color(0xFFFFFFFF)
     val SetGroup  = Color(0xFFFFFFFF)
 }

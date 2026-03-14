@@ -22,6 +22,7 @@ import com.zionhuang.music.ui.screens.library.LibrarySongsScreen
 import com.zionhuang.music.ui.screens.playlist.LocalPlaylistScreen
 import com.zionhuang.music.ui.screens.playlist.OnlinePlaylistScreen
 import com.zionhuang.music.ui.screens.search.OnlineSearchResult
+import com.zionhuang.music.ui.screens.search.HitoriSearchScreen
 import com.zionhuang.music.ui.screens.settings.AboutScreen
 import com.zionhuang.music.ui.screens.settings.AppearanceSettings
 import com.zionhuang.music.ui.screens.settings.BackupAndRestore
@@ -43,9 +44,7 @@ fun NavGraphBuilder.navigationBuilder(
         HomeScreen(navController)
     }
     composable(Screens.Search.route) {
-        // Search is handled in MainActivity with a persistent SearchBar,
-        // but we need a route for the bottom nav.
-        // For now, we'll just show an empty box or redirect.
+        HitoriSearchScreen(navController)
     }
     composable(Screens.Library.route) {
         LibraryScreen(navController)

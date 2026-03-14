@@ -13,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -33,11 +32,11 @@ fun AppearanceSection(themeMode: ThemeMode, onThemeChange: (ThemeMode) -> Unit) 
             modifier = Modifier.padding(bottom = 8.dp)
         )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            ThemeOption("🌑", "Dark", Color(0xFF0A0A08), Color(0xFFF5E000), null, themeMode == ThemeMode.DARK, Modifier.weight(1f)) { onThemeChange(ThemeMode.DARK) }
-            ThemeOption("☀️", "Light", Color(0xFFF5F3E8), Color(0xFFC8A800), null, themeMode == ThemeMode.LIGHT, Modifier.weight(1f)) { onThemeChange(ThemeMode.LIGHT) }
+            ThemeOption("🌑", "Dark", Color(0xFF0A0A08), Color(0xFFFFB6C1), null, themeMode == ThemeMode.DARK, Modifier.weight(1f)) { onThemeChange(ThemeMode.DARK) }
+            ThemeOption("☀️", "Light", Color(0xFFFDF0F3), Color(0xFFFF69B4), null, themeMode == ThemeMode.LIGHT, Modifier.weight(1f)) { onThemeChange(ThemeMode.LIGHT) }
             ThemeOption(
                 "⚙️", "System", null, Color(0xFF888888),
-                Brush.linearGradient(listOf(Color(0xFF0A0A08), Color(0xFF0A0A08), Color(0xFFF5F3E8))),
+                Brush.linearGradient(listOf(Color(0xFF0A0A08), Color(0xFF0A0A08), Color(0xFFFDF0F3))),
                 themeMode == ThemeMode.SYSTEM, Modifier.weight(1f)
             ) { onThemeChange(ThemeMode.SYSTEM) }
         }

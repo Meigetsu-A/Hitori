@@ -170,16 +170,19 @@ class MainActivity : ComponentActivity() {
                     LocalDownloadUtil provides downloadUtil,
                     LocalPlayerAwareWindowInsets provides WindowInsets.systemBars
                 ) {
+                    val playerConnectionVal = playerConnection
                     Box(Modifier.fillMaxSize().background(hitoriColors.Bg)) {
                         Scaffold(
                             bottomBar = {
-                                Column {
-                                    HitoriMiniPlayer(
-                                        onTap = { showNowPlaying = true },
-                                        position = position,
-                                        duration = duration
-                                    )
-                                    HitoriTabBar(navController)
+                                if (playerConnectionVal != null) {
+                                    Column {
+                                        HitoriMiniPlayer(
+                                            onTap = { showNowPlaying = true },
+                                            position = position,
+                                            duration = duration
+                                        )
+                                        HitoriTabBar(navController)
+                                    }
                                 }
                             },
                             containerColor = Color.Transparent
