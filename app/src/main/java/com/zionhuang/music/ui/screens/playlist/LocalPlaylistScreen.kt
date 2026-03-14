@@ -2,6 +2,7 @@ package com.zionhuang.music.ui.screens.playlist
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -515,6 +516,7 @@ fun LocalPlaylistScreen(
         }
 
         TopAppBar(
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface),
             title = {
                 if (inSelectMode) {
                     Text(pluralStringResource(R.plurals.n_selected, selection.size, selection.size))

@@ -307,20 +307,22 @@ fun OnlinePlaylistScreen(
                                 Spacer(Modifier.height(12.dp))
 
                                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                                    Button(
-                                        onClick = {
-                                            playerConnection.playQueue(YouTubeQueue(playlist.shuffleEndpoint))
-                                        },
-                                        contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
-                                        modifier = Modifier.weight(1f)
-                                    ) {
-                                        Icon(
-                                            painter = painterResource(R.drawable.shuffle),
-                                            contentDescription = null,
-                                            modifier = Modifier.size(ButtonDefaults.IconSize)
-                                        )
-                                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                                        Text(stringResource(R.string.shuffle))
+                                    playlist.shuffleEndpoint?.let { shuffleEndpoint ->
+                                        Button(
+                                            onClick = {
+                                                playerConnection.playQueue(YouTubeQueue(shuffleEndpoint))
+                                            },
+                                            contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                                            modifier = Modifier.weight(1f)
+                                        ) {
+                                            Icon(
+                                                painter = painterResource(R.drawable.shuffle),
+                                                contentDescription = null,
+                                                modifier = Modifier.size(ButtonDefaults.IconSize)
+                                            )
+                                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                                            Text(stringResource(R.string.shuffle))
+                                        }
                                     }
 
                                     playlist.radioEndpoint?.let { radioEndpoint ->
@@ -454,6 +456,7 @@ fun OnlinePlaylistScreen(
         }
 
         TopAppBar(
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface),
             title = {
                 if (inSelectMode) {
                     Text(pluralStringResource(R.plurals.n_selected, selection.size, selection.size))

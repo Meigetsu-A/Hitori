@@ -78,12 +78,14 @@ fun YouTubePlaylistMenu(
                 onDismiss()
             }
         }
-        GridMenuItem(
-            icon = R.drawable.shuffle,
-            title = R.string.shuffle
-        ) {
-            playerConnection.playQueue(YouTubeQueue(playlist.shuffleEndpoint))
-            onDismiss()
+        playlist.shuffleEndpoint?.let {
+            GridMenuItem(
+                icon = R.drawable.shuffle,
+                title = R.string.shuffle
+            ) {
+                playerConnection.playQueue(YouTubeQueue(it))
+                onDismiss()
+            }
         }
         playlist.radioEndpoint?.let { radioEndpoint ->
             GridMenuItem(
