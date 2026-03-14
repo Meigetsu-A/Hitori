@@ -196,7 +196,7 @@ fun NavGraphBuilder.navigationBuilder(
         YouTubeBrowseScreen(navController, scrollBehavior)
     }
     composable("settings") {
-        SettingsScreen(navController, scrollBehavior, latestVersionName)
+        SettingsScreen(navController)
     }
     composable("settings/appearance") {
         AppearanceSettings(navController, scrollBehavior)
